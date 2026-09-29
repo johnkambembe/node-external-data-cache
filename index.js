@@ -10,41 +10,44 @@ function handleRequest(req, res) {
     
     res.setHeader('content-type', 'application/json')
 
-    const data1 = {
-                page : "home",
-                user : "john kambembe",
+    const user1 = {
+                user : "1",
+                name : "john kambembe",
                 domain: "informatiquee"
             }
-    const data2 = {
-                page : "about",
-                user : "john France",
+    const user2 = {
+                user : "2",
+                name : "john France",
                 domain: "Anglais"
             }
 
-    const data3 = {
-                page : "Not found"
+    const users = [
+            {
+                user : "1",
+                name : "john kambembe",
+                domain: "informatiquee"
+            },
+            {
+                user : "2",
+                name : "john France",
+                domain: "Anglais"
             }
 
-    if(req.method === "GET") {
+    ]
 
-        switch(req.url) {
-        case '/':
-            res.end(JSON.stringify(data1));
-            break;
-        case '/about':
-            res.end(JSON.stringify(data2));
-            break;
-        default :
-            res.end(JSON.stringify(data3));
-            res.statuscode(404)
-            break;
-        }
+    if(req.url === "/api/users" && req.method === "GET") {
 
-    } else {
-        res.end('error method')
-    }
-    
-    
+        res.setHeader('Content-Type', 'application/json')
+        res.write(JSON.stringify(users))
+        res.end()
+    }  else if (req.url.match(/\/api\/users\/([0-9]+)/) && req.method === "GET") {
+        
+        res.setHeader('Content-Type', 'application/json')
+        const id = req.url.split('/')[3];
+
+        // lol i'll get back here so soon i'm going to learn at nodejs docs, how to send user1 and user lol
+        
+}
 
 }
 
