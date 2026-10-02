@@ -7,27 +7,33 @@ const server = http.createServer();
 server.on('request', handleRequest)
 
 const PORT = 3000;
+
+function sendHtml(res, filepath) {
+
+    fs.readFile(filepath, (err, data) => {
+        if(err){
+            console.log(err)
+            res.end("NO FOUND")
+        }
+            res.setHeader("content-type", "text/html")
+            res.end(data)
+
+    })
+}
 function handleRequest(req, res) {
-    if(req.url === "/" && req.method === "GET") {
-        fs.readFile("./pages/home.html", (err, data) => {
-            if(err) {
-                console.log(err)
-            }
 
-            res.end(data)
-        })
+    if(req.url === "/") {
+        sendHtml(res, "./pages/home.html")
+        return
+    }
+    
+    if(req.url === "/about") {
+        sendHtml(res, "./pages/about.html")
+        return
     }
 
-    if(req.url === "/about" && req.method === "GET") {
-        fs.readFile("./pages/about.html", (err, data) => {
-            if(err) {
-                console.log(err)
-            }
-
-            res.end(data)
-        })
-    }
-
+    res.setHeader("content-type", "text/plain")
+    res.end("No found")
 
 }
 
